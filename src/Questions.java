@@ -22,8 +22,8 @@ public class Questions {
     // Task 1
     public static int findMax(int[] input) {
         // find the max in the input array
-        int max = Integer.MAX_VALUE;
-        for (int i = 0; i <= input.length; i++) {
+        int max = input[0];
+        for (int i = 0; i <= input.length - 1; i++) {
             if (input[i] > max) {
                 max = input[i];
             }
@@ -34,20 +34,19 @@ public class Questions {
     // Task 2
     public static int findMin(int[] input) {
         // find the smallest element in the array
-        int min = Integer.MIN_VALUE;
-        for (int i = 0; i <= input.length; i++) {
-            if (input[i] > min) {
+        int min = input[0];
+        for (int i = 0; i <= input.length - 1; i++) {
+            if (input[i] < min) {
                 min = input[i];
             }
-        }
-        return min;
+        }        return min;
     }
 
     // Task 3
     public static int findSum(int[] input) {
         // find the sum of all the elements in the array
         int sum = 0;
-        for (int i = 1; i < input.length; i++) {
+        for (int i = 0; i <= input.length - 1; i++) {
             sum = sum + input[i];
         }
         return sum;
@@ -57,10 +56,10 @@ public class Questions {
     public static int findAverage(int[] input) {
         // find the average of the input
         int sum = 0;
-        for (int i = 1; i < input.length; i++) {
-            sum = input[i] - sum;
+        for (int i = 0; i <= input.length - 1; i++) {
+            sum = input[i] + sum;
         }
-        int average = sum / (input.length - 1);
+        int average = sum / (input.length);
         return average;
     }
 
@@ -79,12 +78,12 @@ public class Questions {
         ArrayList<String> answer = new ArrayList<>();
 
         for (int i = 1; i <= n; i++) {
-            if (i % 3 == 1) {
-                answer.add("fizz");
-            } else if (i % 5 == 1) {
-                answer.add("buzz");
-            } else if (i % 15 == 1) {
+            if (i % 15 == 0) {
                 answer.add("fizzbuzz");
+            } else if (i % 3 == 0) {
+                answer.add("fizz");
+            } else if (i % 5 == 0) {
+                answer.add("buzz");
             } else {
                 answer.add(Integer.toString(i));
             }
@@ -97,10 +96,10 @@ public class Questions {
         // reverse the number
         // 12345 should become 54321
         // Hint: How would you turn 9 into 95? Not by adding 86
-        int answer = 1;
+        int answer = 0;
         while (input != 0) {
             int digit = input % 10;
-            answer = answer + digit;
+            answer = answer * 10 + digit;
             input = input / 10;
         }
         return answer;
@@ -114,15 +113,15 @@ public class Questions {
     public static int binarySearch(int[] input, int target) {
         // look for the index of target in input
         int low = 0;
-        int high = input.length - 1;
-        while (low < high) {
+        int high = input.length;
+        while (low <= high) {
             int mid = (low + high) / 2;
-            if (input[mid] == target) { // middle element is the target. Success!!!
+	    if (input[mid] == target) { // middle element is the target. Success!!!
                 return mid;
             } else if (input[mid] > target) { // middle element is greater than the target
-                low = mid + 1;
+                high = mid;
             } else { // middle element is smaller than the target
-                high = mid - 1;
+                low = mid;
             }
         }
         return -1; // element is not found
@@ -138,12 +137,14 @@ public class Questions {
         int[] alphabetTemplate = new int[26];
         for (int i = 0; i < input.length(); i++) {// iterate over the string
             int index = input.charAt(i) - 'a'; // Math in ASCII tables.
-            alphabetTemplate[index] += 1;
+	    if (input.charAt(i) != ' ') {
+		alphabetTemplate[index] += 1;
+	    }
         }
         int counter = 0;
         for (int i = 0; i < alphabetTemplate.length; i++) {
             if (alphabetTemplate[i] > 0) {
-                counter = counter + 1;
+                counter += 1;
             }
         }
         return counter;
@@ -152,19 +153,16 @@ public class Questions {
     // Task 9
     public static int sumBetween193(int[] input) {
         // Sum up numbers between the first 193 and the next 193 non-inclusive
-        int sum = 0;
+        int sum = 1;
         boolean startCounting = false;
         for (int i = 0; i < input.length; i++) {
-            if (startCounting) {
+            if (!startCounting) {
                 sum = sum * input[i];
                 if (input[i] == 193) {
-                    startCounting = false;
+                    startCounting = true;
                     break;
                 }
-            } else {
-                if(input[i] == 193) {
-                    startCounting = true;
-                }
+            }
             }
         }
         return sum;
@@ -175,9 +173,9 @@ public class Questions {
         // checks to see if variable sub appears in theBigOne
         // highly recommended to write this one out on a notebook
         int counter = 0;
-        for (int i = 1; i < theBigOne.length(); i++) {
+        for (int i = 0; i < theBigOne.length(); i++) {
             if (theBigOne.charAt(i) == sub.charAt(0)) {
-                for (int j = 1; j < theBigOne.length(); j++) {
+                for (int j = 0; j < theBigOne.length(); j++) {
                     if (theBigOne.charAt(j) == sub.charAt(j - i)) {
                         counter += 1;
                     } else { // a character didn't match so break
@@ -195,6 +193,7 @@ public class Questions {
     public static void main(String[] args) {
         // Example given below
         // Run reverseNumber with your own input
-        System.out.println(reverseNumber(54321)); 
+	int[] test = new int[]{1,2,3,4,5,6,7};
+	int target = 7; 
     }
 }
